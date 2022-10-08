@@ -9,9 +9,9 @@ import Addteamform from './addforms/Addteamform';
 function App() {
 
   return (
-<div>
+<div className='box-border h-screen '>
   
-  <Router>
+<Router>
 <Header />
 <Routes>
   <Route exact path='/' element={<Home />}/>

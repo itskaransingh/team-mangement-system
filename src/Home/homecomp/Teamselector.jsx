@@ -1,57 +1,81 @@
 import React from "react";
-import { useContext,useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { EmployeeContext } from "../../context/EmployeeContext";
 import { Link } from "react-router-dom";
-
+import { MdLibraryAdd } from "react-icons/md";
+import { BsFillTrashFill } from "react-icons/bs";
+import { IoCreateOutline } from "react-icons/io5";
 const Teamselector = () => {
-  const { handlechange, selectedteam,tdatamover,teamsdata } = useContext(EmployeeContext);
-  const [tdatasender, settdatasender] = useState("")
-const handlein=(event)=>{
-  settdatasender(event.target.value) }
-  // handlein()
-const handleclick=(event)=>{
-  event.preventDefault()
- tdatamover(tdatasender);
-}
+  const { handlechange, selectedteam, tdatamover,optvaluepicker, teamsdata, handleteamdel } =
+    useContext(EmployeeContext);
+
+  const [tdatasender, settdatasender] = useState("");
+
+//  useEffect(()=>{
+//    optvaluepicker(tdatasender)
+//  },[teamsdata])
+
+  const handlein = (event) => {
+    settdatasender(event.target.value);
+  };
+
+  const handleclick = (event) => {
+    event.preventDefault();
+    tdatamover(tdatasender);
+    settdatasender("");
+  };
+
+  let mapedopt = teamsdata.map((d) => {
+    return (
+      <option value={d.tname} key={d.id} id={d.id} className="text-black ">
+        {d.tname}
+      </option>
+    );
+  });
+
   return (
-    <div className="flex flex-col">
-      <div className="flex w-[80%] mx-auto justify-between items-center  space-x-3 border-black border bg-slate-400">
-        <div className="w-full">
+    <div className="flex flex-col w-[80%] mx-auto mt-5">
+      <div className="flex w-full  justify-between items-center rounded-md border-black border bg-slate-400">
+        <div className="w-[95%]">
           <select
             name=""
             id=""
             value={selectedteam}
             onChange={handlechange}
-            className="w-full outline-none pl-2 text-lg font-bold text-white bg-transparent"
+            className="w-full p-3 outline-none pl-3 text-lg font-bold text-white bg-transparent"
           >
-        
-            <option value="TeamA" className="text-black">
-              Team A
-            </option>
-            <option value="TeamB" className="text-black">
-              Team B
-            </option>
-            <option value="TeamC" className="text-black">
-              Team C
-            </option>
-            <option value="TeamD" className="text-black">
-              Team D
-            </option>
+            {/* <option value="Primary">Primary</option> */}
+            {mapedopt}
           </select>
         </div>
-        <Link to="/newteam">
-          <div className=" font-semibold text-white text-lg w-[5%]   flex items-center justify-center">
-            <div>New</div>
+        <Link to="">
+          <div className=" font-semibold text-black text-lg w-[5%]   flex items-center justify-start pr-1 pl-1 ">
+            <div className="text-2xl cursor-pointer">
+              <MdLibraryAdd />
+            </div>
           </div>
         </Link>
-      </div>
-        <div >
-          <form action="" className="pl-16 bg-slate-600" >
-            <input type="text" name="" id="" onChange={handlein} className="bg-black text-white"/>
-           <button onClick={handleclick} >Create</button>
-          </form>
+        <div onClick={handleteamdel} className="text-2xl cursor-pointer pr-2">
+          <BsFillTrashFill />
         </div>
-        
+      </div>
+      <div className="relative top-2">
+        <form
+          action=""
+          className="flex  items-center bg-slate-600 rounded-md overflow-hidden"
+        >
+          <input
+            type="text"
+            value={tdatasender}
+            autoFocus
+            onChange={handlein}
+            className="bg-black text-white outline-none w-[95%] text-lg px-4 py-2"
+          />
+          <button onClick={handleclick} className="w-[5%]  pl-4">
+            <div className="text-3xl w-full h-full"><IoCreateOutline/></div>
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
