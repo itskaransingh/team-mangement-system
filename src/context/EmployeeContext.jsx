@@ -6,99 +6,118 @@ export const EmployeeContext = createContext();
 
 const EmployeeContextProvider = ({ children }) => {
   
-  const [employees, setEmployees] = useState(
-    JSON.parse(localStorage.getItem('employeeList'))??
-    [{
-        id: 1,
-        fullName: "Bob Jones",
-        designation: "JavaScript Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 2,
-        fullName: "Jill Bailey",
-        designation: "Node Developer",
-        gender: "female",
-        teamName: "",
-      },
-      {
-        id: 3,
-        fullName: "Gail Shepherd",
-        designation: "Java Developer",
-        gender: "female",
-        teamName: "",
-      },
-      {
-        id: 4,
-        fullName: "Sam Reynolds",
-        designation: "React Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 5,
-        fullName: "David Henry",
-        designation: "DotNet Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 6,
-        fullName: "Sarah Blake",
-        designation: "SQL Server DBA",
-        gender: "female",
-        teamName: "",
-      },
-      {
-        id: 7,
-        fullName: "James Bennet",
-        designation: "Angular Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 8,
-        fullName: "Jessica Faye",
-        designation: "API Developer",
-        gender: "female",
-        teamName: "",
-      },
-      {
-        id: 9,
-        fullName: "Lita Stone",
-        designation: "C++ Developer",
-        gender: "female",
-        teamName: "",
-      },
-      {
-        id: 10,
-        fullName: "Daniel Young",
-        designation: "Python Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 11,
-        fullName: "Adrian Jacobs",
-        designation: "Vue Developer",
-        gender: "male",
-        teamName: "",
-      },
-      {
-        id: 12,
-        fullName: "Devin Monroe",
-        designation: "Graphic Designer",
-        gender: "male",
-        teamName: "",
-      },
-    ]
-  );
+  
+  const demoemplist =[{
+    id: 1,
+    fullName: "Bob Jones",
+    designation: "JavaScript Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 2,
+    fullName: "Jill Bailey",
+    designation: "Node Developer",
+    gender: "female",
+    teamName: "", 
+    demo:true,
+  },
+  {
+    id: 3,
+    fullName: "Gail Shepherd",
+    designation: "Java Developer",
+    gender: "female",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 4,
+    fullName: "Sam Reynolds",
+    designation: "React Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 5,
+    fullName: "David Henry",
+    designation: "DotNet Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 6,
+    fullName: "Sarah Blake",
+    designation: "SQL Server DBA",
+    gender: "female",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 7,
+    fullName: "James Bennet",
+    designation: "Angular Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 8,
+    fullName: "Jessica Faye",
+    designation: "API Developer",
+    gender: "female",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 9,
+    fullName: "Lita Stone",
+    designation: "C++ Developer",
+    gender: "female",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 10,
+    fullName: "Daniel Young",
+    designation: "Python Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 11,
+    fullName: "Adrian Jacobs",
+    designation: "Vue Developer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+  {
+    id: 12,
+    fullName: "Devin Monroe",
+    designation: "Graphic Designer",
+    gender: "male",
+    teamName: "",
+    demo:true,
+  },
+]
 
-  const [selectedteam, setselectedteam] = useState(
-    JSON.parse(localStorage.getItem("selectedteam"))??"Primary Team"
-  );
+const [employees, setEmployees] = useState(
+  JSON.parse(localStorage.getItem('employeeList'))??demoemplist);
 
+const emdatapickerform=(data)=>{
+  setEmployees([...employees,data])
+  console.log(employees)
+}
+
+
+const [selectedteam, setselectedteam] = useState(
+  JSON.parse(localStorage.getItem("selectedteam"))??"Primary team"
+  );
+  
   useEffect(() => {
     localStorage.setItem("employeeList", JSON.stringify(employees));
   }, [employees]);
@@ -107,11 +126,6 @@ const EmployeeContextProvider = ({ children }) => {
     localStorage.setItem("selectedteam", JSON.stringify(selectedteam));
   }, [selectedteam]);
 
-  const [optionvaluegainer, setoptionvaluegainer] = useState("")
-
-const optvaluepicker=(data)=>{
-setoptionvaluegainer(data)
-}
 
  const handleteamdel =()=>{
    const filteredtdata= teamsdata.filter((d)=>{
@@ -149,7 +163,7 @@ setEmployees(transformedtdata)
   
   
   //form side
-  const [teamsdata, setteamsdata] = useState(JSON.parse(localStorage.getItem("teamsdata"))??[{id:uuidv4, tname:'Primary Team'}])
+  const [teamsdata, setteamsdata] = useState(JSON.parse(localStorage.getItem("teamsdata"))||[{id:uuidv4, tname:'Primary Team'}])
   
   const tdatamover=(data)=>{
     setteamsdata([...teamsdata,{id:uuidv4(),tname:data}])
@@ -161,6 +175,12 @@ setEmployees(transformedtdata)
     localStorage.setItem("teamsdata", JSON.stringify(teamsdata));
   }, [teamsdata]);
   
+  const [createinshower, setcreateinshower] = useState(false)
+
+  const createinhandler=(data)=>{
+    setcreateinshower(data)
+  }
+
   const value = {
     employees,
     handlechange,
@@ -170,7 +190,9 @@ setEmployees(transformedtdata)
     tdatamover,
     teamsdata,
     handleteamdel,
-    
+    createinshower,
+    createinhandler,
+    emdatapickerform
   };
   return (
     <EmployeeContext.Provider value={value}>
